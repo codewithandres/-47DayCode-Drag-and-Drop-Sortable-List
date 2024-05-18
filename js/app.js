@@ -8,3 +8,18 @@ const sortableList = document.querySelector('.sortable-list');
     });
     item.addEventListener('dragend', () => item.classList.remove('dragging'));
 });
+
+const initSortableList = e => {
+    e.preventDefault();
+
+    const dragginItem = sortableList.querySelector('.dragging');
+    const siblings = [...sortableList.querySelectorAll('.item:not(.draggin)')];
+
+    let nextSibligns = siblings.find(sibling =>
+        e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2
+    );
+    sortableList.insertBefore(dragginItem, nextSibligns);
+};
+
+sortableList.addEventListener('dragover', initSortableList);
+sortableList.addEventListener('dragenter', e => e.preventDefault());
